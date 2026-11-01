@@ -311,12 +311,12 @@
 <script>
   const BASE = 'https://dopasharp.github.io/';
   const GAMES = [
-    { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '분위기를 띄워볼까요? 다 같이 짠!',  tags: ['solo', 'duo', 'party'],  meta: ['폰 2대', '술자리'] },
+    { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '회사에서 몰래? 소주 따르기!',  tags: ['solo', 'duo', 'party'],  meta: ['폰 2대', '술자리'] },
     { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 톡톡! 곰 두 마리를 만나게 해주세요', tags: ['duo', 'event'],       meta: ['2인', '원격 가능'] },
-    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물어요. 살짝 눌러보세요.',         tags: ['solo', 'duo', 'party'], meta: ['돌아가며', '3D'] },
-    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '재미를 준비하고 있어요. 잠시만요!', tags: ['duo', 'event'], meta: ['COMING SOON'], comingSoon: true },
+    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '악어는 물어요. 이빨을 눌러보세요.',         tags: ['solo', 'duo', 'party'], meta: ['돌아가며', '3D'] },
+    { id: 'hbd-lotto', emoji: '🎟️', name: '생일 복권', hook: '생일 축하도, 행운도 한 장에!', tags: ['duo', 'event'], meta: ['생일', '복권'] },
     { id: 'birthday-hoo',  emoji: '🎂', name: '생일 케이크', hook: '소원을 빌고 촛불을 후— 불어보세요',    tags: ['solo', 'duo', 'party', 'event'],         meta: ['보내기', '마이크'] },
-    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 명중! 손끝의 감각을 믿어보세요', tags: ['solo', 'duo', 'party'], meta: ['폰 2대', '동작 센서'] },
+    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '스트레스 해소엔 도끼 던지기!', tags: ['solo', 'duo', 'party'], meta: ['폰 2대', '동작 센서'] },
     { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울은 솔직해요. 가끔은 너무요.',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
     { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘의 운, 한 번 뽑아보세요.',        tags: ['solo', 'party'],          meta: ['혼자', '행운 테스트'] },
     { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '재미를 준비하고 있어요. 잠시만요!', tags: [], meta: ['COMING SOON'], comingSoon: true },
@@ -381,7 +381,7 @@
     $('pickHook').textContent = g.hook;
     $('pickEmoji').textContent = g.emoji;
   }
-  const ORDER = [0, 3, 1, 5, 2, 6, 4];
+  const ORDER = [0, 3, 1, 5, 2, 6, 4, 7];
   showPick(PLAYABLE[ORDER[dayNo % ORDER.length]], "오늘의 게임");
 
   // random roll
