@@ -274,14 +274,17 @@
 <script>
   const BASE = 'https://dopasharp.github.io/';
   const GAMES = [
-    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘 너의 운은 몇 등급?',        tags: ['solo'],          meta: ['혼자', '운빨'] },
-    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물립니다',         tags: ['solo', 'party'], meta: ['돌아가며', '3D'] },
-    { id: 'birthday-hoo',  emoji: '🎂', name: '생일 축하 파티', hook: '소원 빌고 촛불을 후— 불어봐',    tags: ['event'],         meta: ['보내기', '마이크'] },
-    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 맞히면 인정', tags: ['duo', 'party'], meta: ['폰 2대', '동작 센서'] },
-    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울아 거울아, 누가 제일…?',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
     { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '모임에서 뭐 하고 놀지? 일단 짠',  tags: ['duo', 'party'],  meta: ['폰 2대', '술자리'] },
     { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 탭해서 곰 두 마리를 만나게 해봐', tags: ['duo'],       meta: ['2인', '원격 가능'] },
+    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물립니다',         tags: ['solo', 'party'], meta: ['돌아가며', '3D'] },
+    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '곧 공개할게요', tags: [], meta: ['COMING SOON'], comingSoon: true },
+    { id: 'birthday-hoo',  emoji: '🎂', name: '생일 케이크', hook: '소원 빌고 촛불을 후— 불어봐',    tags: ['event'],         meta: ['보내기', '마이크'] },
+    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 맞히면 인정', tags: ['duo', 'party'], meta: ['폰 2대', '동작 센서'] },
+    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울아 거울아, 누가 제일…?',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
+    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘 너의 운은 몇 등급?',        tags: ['solo'],          meta: ['혼자', '운빨'] },
+    { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '곧 공개할게요', tags: [], meta: ['COMING SOON'], comingSoon: true },
   ];
+  const PLAYABLE = GAMES.filter(g => !g.comingSoon);
   const FILTERS = [
     ['all', '전체'], ['solo', '혼자서'], ['duo', '둘이서'], ['party', '모임에서'], ['event', '이벤트'],
   ];
@@ -303,24 +306,15 @@
   // grid
   $('grid').innerHTML = GAMES.map((g, i) => `
     <li data-tags="${g.tags.join(' ')}">
-      <a class="card" id="card-${g.id}" href="${url(g)}">
+      ${g.comingSoon ? '<div class="card next">' : `<a class="card" id="card-${g.id}" href="${url(g)}">`}
         ${g.badge ? `<span class="badge">${g.badge}</span>` : ''}
         <span class="no">DOPA ${String(i + 1).padStart(2, '0')}</span>
         <span class="emoji" aria-hidden="true">${g.emoji}</span>
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>
         <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
-      </a>
-    </li>`).join('') + `
-    <li data-tags="">
-      <div class="card next">
-        <span class="no">DOPA ${String(GAMES.length + 1).padStart(2, '0')}</span>
-        <span class="emoji" aria-hidden="true">🧪</span>
-        <h4>다음 도파민 실험</h4>
-        <p class="hook">뭐가 나올지 우리도 몰라요. 곧 공개</p>
-        <span class="meta"><span>COMING SOON</span></span>
-      </div>
-    </li>`;
+      ${g.comingSoon ? '</div>' : '</a>'}
+    </li>`).join('');
 
   // filters
   const items = [...$('grid').children];
@@ -350,7 +344,7 @@
     $('pickEmoji').textContent = g.emoji;
   }
   const ORDER = [0, 3, 1, 5, 2, 6, 4];
-  showPick(GAMES[ORDER[dayNo % ORDER.length]], "TODAY'S PICK");
+  showPick(PLAYABLE[ORDER[dayNo % ORDER.length]], "TODAY'S PICK");
 
   // random roll
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -358,11 +352,11 @@
     const btn = $('roll');
     btn.disabled = true;
     document.querySelectorAll('.card.hit').forEach(c => c.classList.remove('hit'));
-    const target = GAMES[Math.floor(Math.random() * GAMES.length)];
+    const target = PLAYABLE[Math.floor(Math.random() * PLAYABLE.length)];
     let step = 0;
     const total = reduce ? 1 : 14;
     (function spin() {
-      const g = step < total - 1 ? GAMES[step % GAMES.length] : target;
+      const g = step < total - 1 ? PLAYABLE[step % PLAYABLE.length] : target;
       $('dice').textContent = g.emoji;
       step++;
       if (step < total) return setTimeout(spin, 40 + step * step * 1.6);
