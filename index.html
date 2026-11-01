@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DOPASHARP · 오늘은 뭐 하고 놀지?</title>
-<meta name="description" content="설치 없이, 로그인 없이, 그냥 즐겨. 누르면 재밌는 것들만 모아둔 도파샵 미니게임 놀이터.">
+<title>DOPASHARP · 오늘은 뭐 하고 놀까요?</title>
+<meta name="description" content="설치 없이, 로그인 없이, 가볍게 즐겨요. 누르면 재밌는 것들만 모아둔 도파샵 미니게임 놀이터.">
 <meta name="theme-color" content="#141417">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dopasharp.github.io/">
@@ -12,8 +12,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DOPASHARP">
 <meta property="og:url" content="https://dopasharp.github.io/">
-<meta property="og:title" content="도파샵 · 오늘은 뭐 하고 놀지?">
-<meta property="og:description" content="설치 없이, 로그인 없이, 그냥 즐겨. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:title" content="도파샵 · 오늘은 뭐 하고 놀까요?">
+<meta property="og:description" content="설치 없이, 로그인 없이, 가볍게 즐겨요. 누르면 재밌는 미니게임 모음 ⚡">
 <meta property="og:image" content="https://dopasharp.github.io/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -221,8 +221,8 @@
 
   <section class="hero">
     <p class="eyebrow">도파샵 · 심심할 틈을 팔아요</p>
-    <h1>오늘은 뭐 하고<br>놀지?</h1>
-    <p class="sub">설치 없이, 로그인 없이, 그냥 즐겨.</p>
+    <h1>오늘은 뭐 하고<br>놀까요?</h1>
+    <p class="sub">설치 없이, 로그인 없이, 가볍게 즐겨요.</p>
   </section>
 </div>
 
@@ -240,7 +240,7 @@
     <div class="emoji" id="pickEmoji" aria-hidden="true"></div>
     <span class="go" aria-hidden="true">↗</span>
   </a>
-  <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 못 고르겠으면, 아무거나 골라줘</button>
+  <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 고민되시나요? 하나 골라드릴게요</button>
 
   <div class="section-head">
     <h3>전체 놀거리</h3>
@@ -251,7 +251,7 @@
 
   <section class="bday" aria-labelledby="bdayTitle">
     <span class="label">DOPA EVENT</span>
-    <h3 id="bdayTitle">🎂 생일 축하 카톡만 보내지 마</h3>
+    <h3 id="bdayTitle">🎂 생일 축하에 촛불 한 스푼</h3>
     <p>이름만 넣으면 촛불 불어 끄는 생일 파티 링크가 만들어져요.</p>
     <form id="bdayForm">
       <input id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required>
@@ -274,14 +274,14 @@
 <script>
   const BASE = 'https://dopasharp.github.io/';
   const GAMES = [
-    { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '모임에서 뭐 하고 놀지? 일단 짠',  tags: ['duo', 'party'],  meta: ['폰 2대', '술자리'] },
-    { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 탭해서 곰 두 마리를 만나게 해봐', tags: ['duo'],       meta: ['2인', '원격 가능'] },
-    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물립니다',         tags: ['solo', 'party'], meta: ['돌아가며', '3D'] },
-    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '곧 공개할게요', tags: [], meta: ['COMING SOON'], comingSoon: true },
-    { id: 'birthday-hoo',  emoji: '🎂', name: '생일 케이크', hook: '소원 빌고 촛불을 후— 불어봐',    tags: ['event'],         meta: ['보내기', '마이크'] },
-    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 맞히면 인정', tags: ['duo', 'party'], meta: ['폰 2대', '동작 센서'] },
-    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울아 거울아, 누가 제일…?',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
-    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘 너의 운은 몇 등급?',        tags: ['solo'],          meta: ['혼자', '운빨'] },
+    { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '분위기를 띄워볼까요? 다 같이 짠!',  tags: ['solo', 'duo', 'party'],  meta: ['폰 2대', '술자리'] },
+    { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 톡톡! 곰 두 마리를 만나게 해주세요', tags: ['duo', 'event'],       meta: ['2인', '원격 가능'] },
+    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '어느 이빨일까요? 두근두근 눌러보세요',         tags: ['solo', 'duo', 'party'], meta: ['돌아가며', '3D'] },
+    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '곧 공개할게요', tags: ['duo', 'event'], meta: ['COMING SOON'], comingSoon: true },
+    { id: 'birthday-hoo',  emoji: '🎂', name: '생일 케이크', hook: '소원을 빌고 촛불을 후— 불어보세요',    tags: ['solo', 'duo', 'party', 'event'],         meta: ['보내기', '마이크'] },
+    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 명중? 멋진 한 수를 보여주세요', tags: ['solo', 'duo', 'party'], meta: ['폰 2대', '동작 센서'] },
+    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울에 물어보세요. 뜻밖의 답이 올지도요!',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
+    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘의 행운, 한 번 뽑아볼까요?',        tags: ['solo', 'party'],          meta: ['혼자', '행운 테스트'] },
     { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '곧 공개할게요', tags: [], meta: ['COMING SOON'], comingSoon: true },
   ];
   const PLAYABLE = GAMES.filter(g => !g.comingSoon);
@@ -323,7 +323,7 @@
     items.forEach(li => {
       const show = key === 'all' || li.dataset.tags.split(' ').includes(key);
       li.hidden = !show;
-      if (show && li.dataset.tags) n++;
+      if (show && li.querySelector('a.card')) n++;
     });
     $('count').textContent = n + ' GAMES';
     [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.key === key));
@@ -360,7 +360,7 @@
       $('dice').textContent = g.emoji;
       step++;
       if (step < total) return setTimeout(spin, 40 + step * step * 1.6);
-      showPick(target, 'RANDOM PICK · 이거 해');
+      showPick(target, 'RANDOM PICK · 이건 어떠세요?');
       $('pick').classList.remove('flash'); void $('pick').offsetWidth; $('pick').classList.add('flash');
       $('card-' + target.id).classList.add('hit');
       $('pick').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
@@ -382,13 +382,13 @@
     }
     try {
       await navigator.clipboard.writeText(data.url);
-      toast('링크 복사 완료! 붙여넣기 해서 보내줘');
+      toast('링크를 복사했어요! 대화창에 붙여넣어 보내주세요');
     } catch {
-      prompt('이 링크를 복사해서 보내줘', data.url);
+      prompt('이 링크를 복사해서 보내주세요', data.url);
     }
   }
   $('shareSite').addEventListener('click', () => share({
-    title: '도파샵 · 오늘은 뭐 하고 놀지?',
+    title: '도파샵 · 오늘은 뭐 하고 놀까요?',
     text: '설치 없이 바로 하는 미니게임 ⚡',
     url: BASE,
   }));
@@ -401,7 +401,7 @@
   $('bdayForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = $('bdayName').value.trim();
-    share({ title: name + ', 생일 축하해 🎂', text: name + '에게 생일 파티가 도착했어! 소원 빌고 촛불 꺼줘 🎂', url: bdayUrl() });
+    share({ title: name + '님, 생일 축하해요 🎂', text: name + '님께 생일 파티가 도착했어요! 소원을 빌고 촛불을 불어보세요 🎂', url: bdayUrl() });
   });
   $('bdayOpen').addEventListener('click', () => { location.href = bdayUrl(); });
 </script>
