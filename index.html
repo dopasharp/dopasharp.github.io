@@ -183,7 +183,13 @@
   footer.wrap { margin-top: 48px; padding: 28px 16px calc(36px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); text-align: center; }
   footer .slogan { margin: 0; font-size: 20px; font-weight: 850; letter-spacing: -0.02em; }
   footer .slogan em { font-style: normal; color: var(--lime); }
-  footer .small { margin: 10px 0 0; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--muted); }
+  footer .contact { margin: 18px 0 0; font-size: 13px; color: var(--muted); line-height: 1.6; }
+  footer .contact a {
+    display: inline-block; margin-top: 8px; padding: 8px 16px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 15px; font-weight: 700;
+  }
+  footer .contact a:hover { border-color: var(--lime); color: var(--lime); }
+  footer .small { margin: 18px 0 0; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--muted); }
   footer .small a { text-decoration: underline; text-underline-offset: 3px; }
 
   .toast {
@@ -259,6 +265,7 @@
 
 <footer class="wrap">
   <p class="slogan">누르면 재밌는 것들만 <em>만듭니다 ⚡</em></p>
+  <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
   <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
 
