@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DOPASHARP · 오늘은 뭐 하고 놀지?</title>
+<meta name="description" content="설치 없이, 로그인 없이, 그냥 즐겨. 누르면 재밌는 것들만 모아둔 도파샵 미니게임 놀이터.">
+<meta name="theme-color" content="#141417">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://dopasharp.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DOPASHARP">
+<meta property="og:url" content="https://dopasharp.github.io/">
+<meta property="og:title" content="도파샵 · 오늘은 뭐 하고 놀지?">
+<meta property="og:description" content="설치 없이, 로그인 없이, 그냥 즐겨. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:image" content="https://dopasharp.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --bg: #141417;
+    --card: #222228;
+    --card-hi: #2a2a31;
+    --line: #34343c;
+    --text: #f5f3ee;
+    --muted: #9b9aa3;
+    --lime: #e2ff5c;
+    --lime-ink: #16180a;
+    --pink: #ff5fa2;
+    --radius: 22px;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  /* header */
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0 8px;
+  }
+  .logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: .02em; color: var(--lime); font-size: 19px; }
+  .logo svg { width: 18px; height: 22px; }
+  .icon-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 38px; padding: 0 14px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--line);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .icon-btn:hover { border-color: var(--lime); }
+
+  /* hero */
+  .hero { padding: 20px 0 22px; }
+  .eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--pink); letter-spacing: .02em; }
+  h1 { margin: 0; font-size: clamp(34px, 8.4vw, 64px); line-height: 1.12; letter-spacing: -0.035em; font-weight: 850; }
+  .hero p.sub { margin: 12px 0 0; color: var(--muted); font-size: 16px; }
+
+  /* ticker */
+  .ticker { overflow: hidden; border-block: 1px solid var(--line); margin: 0 0 22px; }
+  .ticker-track { display: flex; width: max-content; animation: tick 28s linear infinite; }
+  .ticker span { padding: 9px 0; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .18em; color: var(--muted); white-space: nowrap; }
+  .ticker b { color: var(--lime); font-weight: 700; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* today's pick */
+  .pick {
+    position: relative; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    padding: 22px 22px 22px 22px; border-radius: var(--radius);
+    background: var(--lime); color: var(--lime-ink);
+    transition: transform .15s ease;
+  }
+  .pick:hover { transform: translateY(-2px); }
+  .pick:active { transform: scale(.99); }
+  .pick .label {
+    display: inline-block; padding: 3px 9px; border-radius: 999px;
+    background: rgba(22, 24, 10, .1); font-family: var(--mono); font-size: 11px; font-weight: 800; letter-spacing: .12em;
+  }
+  .pick h2 { margin: 12px 0 4px; font-size: clamp(24px, 5.6vw, 34px); line-height: 1.2; letter-spacing: -0.03em; font-weight: 850; }
+  .pick p { margin: 0; font-size: 15px; font-weight: 500; opacity: .78; }
+  .pick .emoji { font-size: clamp(56px, 13vw, 88px); line-height: 1; filter: drop-shadow(0 6px 10px rgba(0,0,0,.18)); }
+  .pick .go {
+    position: absolute; right: 18px; top: 18px; width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--lime-ink); color: var(--lime); font-size: 17px; font-weight: 800;
+  }
+  .pick.flash { animation: flash .5s ease; }
+  @keyframes flash { 0% { transform: scale(.97); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
+
+  .roll {
+    width: 100%; margin-top: 10px; height: 54px; border-radius: 16px;
+    border: 1.5px dashed var(--line); background: transparent;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .roll:hover { border-color: var(--pink); color: var(--pink); }
+  .roll .dice { display: inline-block; width: 1.4em; text-align: center; }
+  .roll[disabled] { cursor: progress; }
+
+  /* filters */
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 38px 0 14px; }
+  .section-head h3 { margin: 0; font-size: 21px; letter-spacing: -0.02em; font-weight: 800; }
+  .section-head .count { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin: 0 -16px 16px; padding-inline: 16px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: none; height: 36px; padding: 0 15px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--line);
+    font-size: 14px; font-weight: 600; cursor: pointer; color: var(--muted);
+  }
+  .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* game grid */
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
+  @media (min-width: 980px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .grid li[hidden] { display: none; }
+  .card {
+    position: relative; display: flex; flex-direction: column; height: 100%;
+    padding: 16px 16px 15px; border-radius: var(--radius);
+    background: var(--card); border: 1px solid transparent;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--lime); background: var(--card-hi); }
+  .card:active { transform: scale(.98); }
+  .card.hit { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255, 95, 162, .25); }
+  .card.next { background: transparent; border: 1.5px dashed var(--line); }
+  .card.next:hover { transform: none; }
+  .card.next .emoji { opacity: .55; }
+  .card .no { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .12em; color: var(--muted); }
+  .card .emoji { font-size: 46px; line-height: 1; margin: 14px 0 16px; }
+  .card h4 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+  .card .hook { margin: 4px 0 0; font-size: 14px; color: var(--muted); line-height: 1.4; }
+  .card .meta { margin-top: auto; padding-top: 14px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .card .meta span { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: rgba(245, 243, 238, .07); color: #c9c7cf; }
+  .badge {
+    position: absolute; top: 13px; right: 13px; padding: 3px 8px; border-radius: 999px;
+    background: var(--pink); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .02em;
+  }
+
+  /* birthday link maker */
+  .bday {
+    margin-top: 38px; padding: 22px; border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(255, 95, 162, .18), rgba(255, 95, 162, .04) 60%), var(--card);
+    border: 1px solid rgba(255, 95, 162, .35);
+  }
+  .bday .label { font-family: var(--mono); font-size: 11px; font-weight: 800; letter-spacing: .12em; color: var(--pink); }
+  .bday h3 { margin: 8px 0 4px; font-size: 22px; letter-spacing: -0.02em; font-weight: 850; }
+  .bday p { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
+  .bday form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .bday input {
+    flex: 1 1 180px; min-width: 0; height: 50px; padding: 0 16px; border-radius: 14px;
+    background: var(--bg); border: 1px solid var(--line); font-size: 16px;
+  }
+  .bday input:focus { border-color: var(--pink); outline: none; }
+  .btn {
+    height: 50px; padding: 0 20px; border-radius: 14px; border: 0; cursor: pointer;
+    font-size: 15px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn.pink { background: var(--pink); color: #fff; }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); }
+  .bday .actions { flex: 1 1 auto; display: flex; gap: 8px; }
+  .bday .actions .btn { flex: 1; }
+
+  /* footer */
+  footer.wrap { margin-top: 48px; padding: 28px 16px calc(36px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); text-align: center; }
+  footer .slogan { margin: 0; font-size: 20px; font-weight: 850; letter-spacing: -0.02em; }
+  footer .slogan em { font-style: normal; color: var(--lime); }
+  footer .small { margin: 10px 0 0; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--muted); }
+  footer .small a { text-decoration: underline; text-underline-offset: 3px; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px);
+    padding: 11px 18px; border-radius: 999px; background: var(--text); color: var(--bg);
+    font-size: 14px; font-weight: 700; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+    .pick, .card { transition: none; }
+    .pick.flash { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./" aria-label="DOPASHARP 홈">
+      <svg viewBox="0 0 18 22" aria-hidden="true"><path d="M11 0 1 12.5h6.2L5.6 22 17 8.6h-6.4L11 0Z" fill="#ff8a3d"/></svg>
+      DOPASHARP
+    </a>
+    <button class="icon-btn" id="shareSite" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+      공유
+    </button>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">도파샵 · 심심할 틈을 팔아요</p>
+    <h1>오늘은 뭐 하고<br>놀지?</h1>
+    <p class="sub">설치 없이, 로그인 없이, 그냥 즐겨.</p>
+  </section>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<main class="wrap">
+  <a class="pick" id="pick" href="#">
+    <div>
+      <span class="label" id="pickLabel">TODAY'S PICK</span>
+      <h2 id="pickTitle">&nbsp;</h2>
+      <p id="pickHook">&nbsp;</p>
+    </div>
+    <div class="emoji" id="pickEmoji" aria-hidden="true"></div>
+    <span class="go" aria-hidden="true">↗</span>
+  </a>
+  <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 못 고르겠으면, 아무거나 골라줘</button>
+
+  <div class="section-head">
+    <h3>전체 놀거리</h3>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="chips" role="toolbar" aria-label="놀거리 필터" id="chips"></div>
+  <ul class="grid" id="grid"></ul>
+
+  <section class="bday" aria-labelledby="bdayTitle">
+    <span class="label">DOPA EVENT</span>
+    <h3 id="bdayTitle">🎂 생일 축하 카톡만 보내지 마</h3>
+    <p>이름만 넣으면 촛불 불어 끄는 생일 파티 링크가 만들어져요.</p>
+    <form id="bdayForm">
+      <input id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required>
+      <div class="actions">
+        <button class="btn pink" type="submit">링크 보내기</button>
+        <button class="btn ghost" type="button" id="bdayOpen">미리 보기</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p class="slogan">누르면 재밌는 것들만 <em>만듭니다 ⚡</em></p>
+  <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const BASE = 'https://dopasharp.github.io/';
+  const GAMES = [
+    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘 너의 운은 몇 등급?',        tags: ['solo'],          meta: ['혼자', '운빨'] },
+    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물립니다',         tags: ['solo', 'party'], meta: ['돌아가며', '3D'] },
+    { id: 'birthday-hoo',  emoji: '🎂', name: '생일 축하 파티', hook: '소원 빌고 촛불을 후— 불어봐',    tags: ['event'],         meta: ['보내기', '마이크'] },
+    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 맞히면 인정', tags: ['duo', 'party'], meta: ['폰 2대', '동작 센서'] },
+    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울아 거울아, 누가 제일…?',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
+    { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '모임에서 뭐 하고 놀지? 일단 짠',  tags: ['duo', 'party'],  meta: ['폰 2대', '술자리'] },
+    { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 탭해서 곰 두 마리를 만나게 해봐', tags: ['duo'],       meta: ['2인', '원격 가능'] },
+  ];
+  const FILTERS = [
+    ['all', '전체'], ['solo', '혼자서'], ['duo', '둘이서'], ['party', '모임에서'], ['event', '이벤트'],
+  ];
+  const url = g => BASE + g.id + '/';
+  const $ = id => document.getElementById(id);
+
+  // Pepero Day countdown on Nov 1–11 (KST)
+  const kst = new Date(Date.now() + 9 * 3600e3);
+  const dayNo = Math.floor(kst.getTime() / 86400e3);
+  if (kst.getUTCMonth() === 10 && kst.getUTCDate() <= 11) {
+    const d = 11 - kst.getUTCDate();
+    GAMES.find(g => g.id === 'ppro_game').badge = d === 0 ? '빼빼로데이!' : '11.11 D-' + d;
+  }
+
+  // ticker
+  const tick = '<span>PLAY · <b>TAP</b> · REPEAT · 심심할 틈을 팔아요 · DOPASHARP ⚡ ·&nbsp;</span>';
+  $('ticker').innerHTML = tick.repeat(8);
+
+  // grid
+  $('grid').innerHTML = GAMES.map((g, i) => `
+    <li data-tags="${g.tags.join(' ')}">
+      <a class="card" id="card-${g.id}" href="${url(g)}">
+        ${g.badge ? `<span class="badge">${g.badge}</span>` : ''}
+        <span class="no">DOPA ${String(i + 1).padStart(2, '0')}</span>
+        <span class="emoji" aria-hidden="true">${g.emoji}</span>
+        <h4>${g.name}</h4>
+        <p class="hook">${g.hook}</p>
+        <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
+      </a>
+    </li>`).join('') + `
+    <li data-tags="">
+      <div class="card next">
+        <span class="no">DOPA ${String(GAMES.length + 1).padStart(2, '0')}</span>
+        <span class="emoji" aria-hidden="true">🧪</span>
+        <h4>다음 도파민 실험</h4>
+        <p class="hook">뭐가 나올지 우리도 몰라요. 곧 공개</p>
+        <span class="meta"><span>COMING SOON</span></span>
+      </div>
+    </li>`;
+
+  // filters
+  const items = [...$('grid').children];
+  function applyFilter(key) {
+    let n = 0;
+    items.forEach(li => {
+      const show = key === 'all' || li.dataset.tags.split(' ').includes(key);
+      li.hidden = !show;
+      if (show && li.dataset.tags) n++;
+    });
+    $('count').textContent = n + ' GAMES';
+    [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.key === key));
+  }
+  $('chips').innerHTML = FILTERS.map(([k, label]) => `<button class="chip" type="button" data-key="${k}" aria-pressed="false">${label}</button>`).join('');
+  $('chips').addEventListener('click', e => {
+    const b = e.target.closest('.chip');
+    if (b) applyFilter(b.dataset.key);
+  });
+  applyFilter('all');
+
+  // today's pick: same game for everyone on the same day
+  function showPick(g, label) {
+    $('pick').href = url(g);
+    $('pickLabel').textContent = label;
+    $('pickTitle').textContent = g.name;
+    $('pickHook').textContent = g.hook;
+    $('pickEmoji').textContent = g.emoji;
+  }
+  const ORDER = [0, 3, 1, 5, 2, 6, 4];
+  showPick(GAMES[ORDER[dayNo % ORDER.length]], "TODAY'S PICK");
+
+  // random roll
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('roll').addEventListener('click', () => {
+    const btn = $('roll');
+    btn.disabled = true;
+    document.querySelectorAll('.card.hit').forEach(c => c.classList.remove('hit'));
+    const target = GAMES[Math.floor(Math.random() * GAMES.length)];
+    let step = 0;
+    const total = reduce ? 1 : 14;
+    (function spin() {
+      const g = step < total - 1 ? GAMES[step % GAMES.length] : target;
+      $('dice').textContent = g.emoji;
+      step++;
+      if (step < total) return setTimeout(spin, 40 + step * step * 1.6);
+      showPick(target, 'RANDOM PICK · 이거 해');
+      $('pick').classList.remove('flash'); void $('pick').offsetWidth; $('pick').classList.add('flash');
+      $('card-' + target.id).classList.add('hit');
+      $('pick').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      setTimeout(() => { $('dice').textContent = '🎲'; btn.disabled = false; }, 600);
+    })();
+  });
+
+  // share
+  let toastTimer;
+  function toast(msg) {
+    $('toast').textContent = msg;
+    $('toast').classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => $('toast').classList.remove('show'), 1800);
+  }
+  async function share(data) {
+    if (navigator.share) {
+      try { await navigator.share(data); return; } catch (e) { if (e.name === 'AbortError') return; }
+    }
+    try {
+      await navigator.clipboard.writeText(data.url);
+      toast('링크 복사 완료! 붙여넣기 해서 보내줘');
+    } catch {
+      prompt('이 링크를 복사해서 보내줘', data.url);
+    }
+  }
+  $('shareSite').addEventListener('click', () => share({
+    title: '도파샵 · 오늘은 뭐 하고 놀지?',
+    text: '설치 없이 바로 하는 미니게임 ⚡',
+    url: BASE,
+  }));
+
+  // birthday link
+  const bdayUrl = () => {
+    const name = $('bdayName').value.trim();
+    return BASE + 'birthday-hoo/' + (name ? '?name=' + encodeURIComponent(name) : '');
+  };
+  $('bdayForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('bdayName').value.trim();
+    share({ title: name + ', 생일 축하해 🎂', text: name + '에게 생일 파티가 도착했어! 소원 빌고 촛불 꺼줘 🎂', url: bdayUrl() });
+  });
+  $('bdayOpen').addEventListener('click', () => { location.href = bdayUrl(); });
+</script>
+</body>
+</html>
