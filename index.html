@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DOPASHARP · 오늘은 뭐 하고 놀까요?</title>
-<meta name="description" content="설치 없이, 로그인 없이, 가볍게 즐겨요. 누르면 재밌는 것들만 모아둔 도파샵 미니게임 놀이터.">
-<meta name="theme-color" content="#141417">
+<meta name="description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 것들만 모아둔 도파샵 미니게임 놀이터.">
+<meta name="theme-color" content="#0B0E0D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dopasharp.github.io/">
 
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="DOPASHARP">
 <meta property="og:url" content="https://dopasharp.github.io/">
 <meta property="og:title" content="도파샵 · 오늘은 뭐 하고 놀까요?">
-<meta property="og:description" content="설치 없이, 로그인 없이, 가볍게 즐겨요. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음 ⚡">
 <meta property="og:image" content="https://dopasharp.github.io/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -21,20 +21,8 @@
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="styles/tokens.css">
 <style>
-  :root {
-    --bg: #141417;
-    --card: #222228;
-    --card-hi: #2a2a31;
-    --line: #34343c;
-    --text: #f5f3ee;
-    --muted: #9b9aa3;
-    --lime: #e2ff5c;
-    --lime-ink: #16180a;
-    --pink: #ff5fa2;
-    --radius: 22px;
-    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-  }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
@@ -51,7 +39,7 @@
   button, input { font: inherit; color: inherit; }
   :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
 
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  .wrap { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--page-padding); }
 
   /* header */
   .top {
@@ -76,7 +64,7 @@
 
   /* ticker */
   .ticker { overflow: hidden; border-block: 1px solid var(--line); margin: 0 0 22px; }
-  .ticker-track { display: flex; width: max-content; animation: tick 28s linear infinite; }
+  .ticker-track { display: flex; width: max-content; /* Decorative ticker stays still to keep focus on games. */ }
   .ticker span { padding: 9px 0; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .18em; color: var(--muted); white-space: nowrap; }
   .ticker b { color: var(--lime); font-weight: 700; }
   @keyframes tick { to { transform: translateX(-50%); } }
@@ -128,9 +116,9 @@
   .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
 
   /* game grid */
-  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
-  @media (min-width: 980px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); } }
+  @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .grid li[hidden] { display: none; }
   .card {
     position: relative; display: flex; flex-direction: column; height: 100%;
@@ -204,14 +192,62 @@
     .pick, .card { transition: none; }
     .pick.flash { animation: none; }
   }
+
+  .brand-mark, .footer-brand { font-size: 38px; font-weight: 900; letter-spacing: -.1em; color: var(--lime); line-height: 1; }
+  .brand-name { display: flex; flex-direction: column; gap: 4px; font-size: 14px; letter-spacing: .08em; }
+  .brand-name span { font-size: 9px; letter-spacing: .12em; color: var(--muted); }
+  .logo { gap: 14px; min-height: 52px; }
+  .top { padding-top: max(24px, env(safe-area-inset-top)); }
+  .hero { padding: var(--space-12) 0; }
+  .eyebrow { color: var(--muted); font-size: 12px; letter-spacing: .12em; }
+  h1 { font-size: clamp(38px, 7vw, 80px); line-height: 1.08; font-weight: 900; }
+  h1 em { color: var(--lime); font-style: normal; }
+  .hero p.sub { line-height: 1.65; margin-top: 24px; }
+  .ticker { margin-bottom: var(--space-12); }
+  .pick { background: var(--card); color: var(--text); border: 1px solid var(--line); padding: 28px; }
+  .pick .label { background: transparent; color: var(--lime); padding: 0; font-size: 12px; letter-spacing: .04em; }
+  @media (max-width: 639px) { .pick { padding: 24px; gap: 12px; } .pick .emoji { font-size: 56px; } .pick .go { width: 28px; height: 28px; top: 12px; right: 12px; } }
+  .pick .go { background: var(--lime); color: var(--lime-ink); }
+  .pick p { color: var(--muted); opacity: 1; font-size: 16px; }
+  .roll { background: var(--lime); color: var(--lime-ink); border: 0; padding: 12px 16px; height: auto; min-height: 56px; }
+  .roll:hover { background: var(--color-brand-hover); color: var(--lime-ink); }
+  .section-head { margin-top: var(--space-16); }
+  .section-head h3 { font-size: 20px; }
+  .section-head .count { font-family: inherit; letter-spacing: 0; }
+  .chips { margin-inline: 0; padding-inline: 0; gap: 8px; }
+  .chip { min-height: 44px; height: auto; padding: 10px 16px; }
+  .chip[aria-pressed="true"] { background: var(--lime); border-color: var(--lime); color: var(--lime-ink); }
+  .card { padding: 24px; border-color: var(--line); }
+  .card h4 { font-size: 20px; line-height: 1.2; }
+  .card .hook { font-size: 16px; line-height: 1.6; margin-top: 8px; }
+  .card .emoji { font-size: 56px; }
+  .card .no { font-size: 12px; }
+  .card .meta span { font-size: 12px; }
+  .card-cta { display: flex; justify-content: space-between; align-items: center; color: var(--lime); font-size: 12px; font-weight: 800; letter-spacing: .08em; margin-top: 24px; }
+  .card-cta.pending { color: var(--muted); letter-spacing: 0; }
+  .bday { margin-top: var(--space-16); padding: 28px; background: var(--card); border-color: var(--line); }
+  .bday h3 { font-size: 26px; line-height: 1.2; margin-block: 16px 12px; }
+  .bday p { font-size: 16px; line-height: 1.6; }
+  .bday input, .btn, .icon-btn { min-height: 52px; height: auto; }
+  .btn.pink { background: var(--pink); color: var(--lime-ink); }
+  .btn:hover, .icon-btn:hover { filter: brightness(1.08); }
+  button:active { transform: scale(.98); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .roll[disabled] { cursor: progress; }
+  .pick:focus-visible, .roll:focus-visible, .chip[aria-pressed="true"]:focus-visible { outline-color: var(--text); }
+  footer.wrap { margin-top: var(--space-16); padding: 32px var(--page-padding) max(36px, env(safe-area-inset-bottom)); }
+  .footer-brand { margin: 0 0 24px; }
+  .toast { max-width: calc(100vw - 40px); width: max-content; text-align: center; border-radius: var(--radius-md); }
+  @media (min-width: 768px) { .hero { padding-block: 80px; } .section-head { margin-top: 80px; } .section-head h3 { font-size: 24px; } .bday { margin-top: 80px; padding: 40px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./" aria-label="DOPASHARP 홈">
-      <svg viewBox="0 0 18 22" aria-hidden="true"><path d="M11 0 1 12.5h6.2L5.6 22 17 8.6h-6.4L11 0Z" fill="#ff8a3d"/></svg>
-      DOPASHARP
+      <span class="brand-mark" aria-hidden="true">D#</span>
+      <span class="brand-name">DOPASHARP<span>INTERACTIVE STUDIO</span></span>
     </a>
     <button class="icon-btn" id="shareSite" type="button">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
@@ -220,9 +256,9 @@
   </header>
 
   <section class="hero">
-    <p class="eyebrow">도파샵 · 심심할 틈을 팔아요</p>
-    <h1>오늘은 뭐 하고<br>놀까요?</h1>
-    <p class="sub">설치 없이, 로그인 없이, 가볍게 즐겨요.</p>
+    <p class="eyebrow">LOOKS COOL. PLAYS FUNNY.</p>
+    <h1>쓸데없지만,<br><em>재밌으니까.</em></h1>
+    <p class="sub">설치 없이, 설명은 짧게, 재미는 바로.</p>
   </section>
 </div>
 
@@ -233,28 +269,28 @@
 <main class="wrap">
   <a class="pick" id="pick" href="#">
     <div>
-      <span class="label" id="pickLabel">TODAY'S PICK</span>
+      <span class="label" id="pickLabel">오늘의 게임</span>
       <h2 id="pickTitle">&nbsp;</h2>
       <p id="pickHook">&nbsp;</p>
     </div>
     <div class="emoji" id="pickEmoji" aria-hidden="true"></div>
     <span class="go" aria-hidden="true">↗</span>
   </a>
-  <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 고민되시나요? 하나 골라드릴게요</button>
+  <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 고르기 어렵다면? 랜덤으로 골라주세요</button>
 
   <div class="section-head">
-    <h3>전체 놀거리</h3>
-    <span class="count" id="count"></span>
+    <h3>취향대로 골라보세요</h3>
+    <span class="count" id="count" aria-live="polite"></span>
   </div>
   <div class="chips" role="toolbar" aria-label="놀거리 필터" id="chips"></div>
   <ul class="grid" id="grid"></ul>
 
   <section class="bday" aria-labelledby="bdayTitle">
     <span class="label">DOPA EVENT</span>
-    <h3 id="bdayTitle">🎂 생일 축하에 촛불 한 스푼</h3>
-    <p>이름만 넣으면 촛불 불어 끄는 생일 파티 링크가 만들어져요.</p>
+    <h3 id="bdayTitle">🎂 축하 메시지에, 촛불도 함께.</h3>
+    <p>이름만 넣어주세요. 후— 불면 꺼지는 생일 케이크를 보내드려요.</p>
     <form id="bdayForm">
-      <input id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required>
+      <input aria-label="생일인 친구 이름" id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required>
       <div class="actions">
         <button class="btn pink" type="submit">링크 보내기</button>
         <button class="btn ghost" type="button" id="bdayOpen">미리 보기</button>
@@ -264,7 +300,8 @@
 </main>
 
 <footer class="wrap">
-  <p class="slogan">누르면 재밌는 것들만 <em>만듭니다 ⚡</em></p>
+  <p class="footer-brand">D#</p>
+  <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
   <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
   <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
@@ -276,13 +313,13 @@
   const GAMES = [
     { id: 'soju-game',     emoji: '🍶', name: '짠! 소주 따르기', hook: '분위기를 띄워볼까요? 다 같이 짠!',  tags: ['solo', 'duo', 'party'],  meta: ['폰 2대', '술자리'] },
     { id: 'ppro_game',     emoji: '🍫', name: '빼빼로게임',     hook: '둘이 톡톡! 곰 두 마리를 만나게 해주세요', tags: ['duo', 'event'],       meta: ['2인', '원격 가능'] },
-    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '어느 이빨일까요? 두근두근 눌러보세요',         tags: ['solo', 'duo', 'party'], meta: ['돌아가며', '3D'] },
-    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '곧 공개할게요', tags: ['duo', 'event'], meta: ['COMING SOON'], comingSoon: true },
+    { id: 'croc-chomp',    emoji: '🐊', name: '악어 이빨 게임', hook: '이 중 하나는 물어요. 살짝 눌러보세요.',         tags: ['solo', 'duo', 'party'], meta: ['돌아가며', '3D'] },
+    { id: 'birthday-lottery', emoji: '🎟️', name: '생일 복권', hook: '재미를 준비하고 있어요. 잠시만요!', tags: ['duo', 'event'], meta: ['COMING SOON'], comingSoon: true },
     { id: 'birthday-hoo',  emoji: '🎂', name: '생일 케이크', hook: '소원을 빌고 촛불을 후— 불어보세요',    tags: ['solo', 'duo', 'party', 'event'],         meta: ['보내기', '마이크'] },
-    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 명중? 멋진 한 수를 보여주세요', tags: ['solo', 'duo', 'party'], meta: ['폰 2대', '동작 센서'] },
-    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울에 물어보세요. 뜻밖의 답이 올지도요!',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
-    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘의 행운, 한 번 뽑아볼까요?',        tags: ['solo', 'party'],          meta: ['혼자', '행운 테스트'] },
-    { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '곧 공개할게요', tags: [], meta: ['COMING SOON'], comingSoon: true },
+    { id: 'axe-throwing',  emoji: '🪓', name: '도끼 던지기',    hook: '한 번에 명중! 손끝의 감각을 믿어보세요', tags: ['solo', 'duo', 'party'], meta: ['폰 2대', '동작 센서'] },
+    { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울은 솔직해요. 가끔은 너무요.',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
+    { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘의 운, 한 번 뽑아보세요.',        tags: ['solo', 'party'],          meta: ['혼자', '행운 테스트'] },
+    { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '재미를 준비하고 있어요. 잠시만요!', tags: [], meta: ['COMING SOON'], comingSoon: true },
   ];
   const PLAYABLE = GAMES.filter(g => !g.comingSoon);
   const FILTERS = [
@@ -308,11 +345,12 @@
     <li data-tags="${g.tags.join(' ')}">
       ${g.comingSoon ? '<div class="card next">' : `<a class="card" id="card-${g.id}" href="${url(g)}">`}
         ${g.badge ? `<span class="badge">${g.badge}</span>` : ''}
-        <span class="no">DOPA ${String(i + 1).padStart(2, '0')}</span>
+        <span class="no">DOPA# ${String(i + 1).padStart(3, '0')}</span>
         <span class="emoji" aria-hidden="true">${g.emoji}</span>
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>
         <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
+        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : '<span class="card-cta">PLAY NOW <span aria-hidden="true">↗</span></span>'}
       ${g.comingSoon ? '</div>' : '</a>'}
     </li>`).join('');
 
@@ -325,7 +363,7 @@
       li.hidden = !show;
       if (show && li.querySelector('a.card')) n++;
     });
-    $('count').textContent = n + ' GAMES';
+    $('count').textContent = n + '개 플레이 가능';
     [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.key === key));
   }
   $('chips').innerHTML = FILTERS.map(([k, label]) => `<button class="chip" type="button" data-key="${k}" aria-pressed="false">${label}</button>`).join('');
@@ -344,7 +382,7 @@
     $('pickEmoji').textContent = g.emoji;
   }
   const ORDER = [0, 3, 1, 5, 2, 6, 4];
-  showPick(PLAYABLE[ORDER[dayNo % ORDER.length]], "TODAY'S PICK");
+  showPick(PLAYABLE[ORDER[dayNo % ORDER.length]], "오늘의 게임");
 
   // random roll
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -360,7 +398,7 @@
       $('dice').textContent = g.emoji;
       step++;
       if (step < total) return setTimeout(spin, 40 + step * step * 1.6);
-      showPick(target, 'RANDOM PICK · 이건 어떠세요?');
+      showPick(target, '랜덤 추천 · 이건 어떠세요?');
       $('pick').classList.remove('flash'); void $('pick').offsetWidth; $('pick').classList.add('flash');
       $('card-' + target.id).classList.add('hit');
       $('pick').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
