@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모든 게임 | DOPA#</title>
+<meta name="description" content="설치 없이 바로 하는 도파# 미니게임 전체 목록. 하나 골라서 바로 놀아보세요.">
+<meta name="theme-color" content="#0B0E0D">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://dopasharp.github.io/games/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DOPASHARP">
+<meta property="og:url" content="https://dopasharp.github.io/games/">
+<meta property="og:title" content="도파# · 모든 게임">
+<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:image" content="https://dopasharp.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/site.css">
+<style>
+  /* Games page: the home page's cards and filters, without the hero extras. */
+  .hero { padding: var(--space-8) 0 var(--space-6); }
+  .hero h1 { font-size: clamp(34px, 6vw, 64px); }
+  .section-head { margin-top: 0; }
+  .back { text-decoration: none; }
+  .back[hidden] { display: none; }
+  @media (min-width: 768px) { .hero { padding-block: var(--space-12) var(--space-8); } .section-head { margin-top: 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../" aria-label="DOPASHARP 홈">
+      <span class="brand-mark" aria-hidden="true">D#</span>
+      <span class="brand-name">DOPASHARP<span>INTERACTIVE STUDIO</span></span>
+    </a>
+    <a class="icon-btn back" id="back" href="../" hidden>← <span id="backName">돌아가기</span></a>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">ALL GAMES</p>
+    <h1>다음엔 <em>뭐 하고 놀까요?</em></h1>
+    <p class="sub">설치 없이 바로. 하나 골라서 눌러보세요.</p>
+  </section>
+</div>
+
+<main class="wrap">
+  <div class="section-head">
+    <h3>취향대로 골라보세요</h3>
+    <span class="count" id="count" aria-live="polite"></span>
+  </div>
+  <div class="chips" role="toolbar" aria-label="놀거리 필터" id="chips"></div>
+  <ul class="grid" id="grid"></ul>
+</main>
+
+<footer class="wrap">
+  <p class="footer-brand">D#</p>
+  <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
+  <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
+  <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+</footer>
+
+<script src="../games.js"></script>
+<script>
+  const BASE = 'https://dopasharp.github.io/';
+  const $ = id => document.getElementById(id);
+  const url = g => BASE + g.id + '/';
+  // Games link here with ?from=<repo>; that game is hidden and becomes the back link.
+  const from = new URLSearchParams(location.search).get('from');
+  const GAMES = window.DOPA_GAMES.map((g, i) => ({ ...g, no: String(i + 1).padStart(3, '0') }));
+  const came = GAMES.find(g => g.id === from && !g.comingSoon);
+  if (came) {
+    $('back').href = url(came);
+    $('backName').textContent = came.emoji + ' 돌아가기';
+    $('back').setAttribute('aria-label', came.name + '(으)로 돌아가기');
+    $('back').title = came.name + '(으)로 돌아가기';
+    $('back').hidden = false;
+  }
+
+  $('grid').innerHTML = GAMES.filter(g => g !== came).map(g => `
+    <li data-tags="${g.tags.join(' ')}">
+      ${g.comingSoon ? '<div class="card next">' : `<a class="card" href="${url(g)}">`}
+        <span class="no">DOPA# ${g.no}</span>
+        <span class="emoji" aria-hidden="true">${g.emoji}</span>
+        <h4>${g.name}</h4>
+        <p class="hook">${g.hook}</p>
+        <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
+        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : '<span class="card-cta">PLAY NOW <span aria-hidden="true">↗</span></span>'}
+      ${g.comingSoon ? '</div>' : '</a>'}
+    </li>`).join('');
+
+  const items = [...$('grid').children];
+  function applyFilter(key) {
+    let n = 0;
+    items.forEach(li => {
+      const show = key === 'all' || li.dataset.tags.split(' ').includes(key);
+      li.hidden = !show;
+      if (show && li.querySelector('a.card')) n++;
+    });
+    $('count').textContent = n + '개 플레이 가능';
+    [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.key === key));
+  }
+  $('chips').innerHTML = window.DOPA_FILTERS.map(([k, label]) => `<button class="chip" type="button" data-key="${k}" aria-pressed="false">${label}</button>`).join('');
+  $('chips').addEventListener('click', e => {
+    const b = e.target.closest('.chip');
+    if (b) applyFilter(b.dataset.key);
+  });
+  applyFilter('all');
+</script>
+</body>
+</html>
