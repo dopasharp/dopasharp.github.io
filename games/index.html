@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>모든 게임 | DOPA#</title>
+<title>모든 게임 | 도파#</title>
 <meta name="description" content="설치 없이 바로 하는 도파# 미니게임 전체 목록. 하나 골라서 바로 놀아보세요.">
 <meta name="theme-color" content="#0B0E0D">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dopasharp.github.io/games/">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="DOPASHARP">
+<meta property="og:site_name" content="도파# dopa.shap">
 <meta property="og:url" content="https://dopasharp.github.io/games/">
 <meta property="og:title" content="도파# · 모든 게임">
-<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음.">
 <meta property="og:image" content="https://dopasharp.github.io/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -36,9 +36,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="logo" href="../" aria-label="DOPASHARP 홈">
+    <a class="logo" href="../" aria-label="도파# 홈">
       <span class="brand-mark" aria-hidden="true">D#</span>
-      <span class="brand-name">DOPASHARP<span>INTERACTIVE STUDIO</span></span>
+      <span class="brand-name">dopa.shap<span>INTERACTIVE STUDIO</span></span>
     </a>
     <a class="icon-btn back" id="back" href="../" hidden>← <span id="backName">돌아가기</span></a>
   </header>
@@ -63,9 +63,10 @@
   <p class="footer-brand">D#</p>
   <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
   <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
-  <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+  <p class="small">MADE FOR FUN · dopa.shap · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
 
+<script src="../analytics.js"></script>
 <script src="../games.js"></script>
 <script>
   const BASE = 'https://dopasharp.github.io/';
@@ -86,7 +87,7 @@
   $('grid').innerHTML = GAMES.filter(g => g !== came).map(g => `
     <li data-tags="${g.tags.join(' ')}">
       ${g.comingSoon ? '<div class="card next">' : `<a class="card" href="${url(g)}">`}
-        <span class="no">DOPA# ${g.no}</span>
+        <span class="no">도파# ${g.no}</span>
         <span class="emoji" aria-hidden="true">${g.emoji}</span>
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>

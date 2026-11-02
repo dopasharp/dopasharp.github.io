@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DOPASHARP · 오늘은 뭐 하고 놀까요?</title>
+<title>도파# · 오늘은 뭐 하고 놀까요?</title>
 <meta name="description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 것들만 모아둔 도파# 미니게임 놀이터.">
 <meta name="theme-color" content="#0B0E0D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dopasharp.github.io/">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="DOPASHARP">
+<meta property="og:site_name" content="도파# dopa.shap">
 <meta property="og:url" content="https://dopasharp.github.io/">
 <meta property="og:title" content="도파# · 오늘은 뭐 하고 놀까요?">
-<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음 ⚡">
+<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음.">
 <meta property="og:image" content="https://dopasharp.github.io/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -27,9 +27,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="logo" href="./" aria-label="DOPASHARP 홈">
+    <a class="logo" href="./" aria-label="도파# 홈">
       <span class="brand-mark" aria-hidden="true">D#</span>
-      <span class="brand-name">DOPASHARP<span>INTERACTIVE STUDIO</span></span>
+      <span class="brand-name">dopa.shap<span>INTERACTIVE STUDIO</span></span>
     </a>
     <button class="icon-btn" id="shareSite" type="button">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
@@ -85,11 +85,12 @@
   <p class="footer-brand">D#</p>
   <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
   <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
-  <p class="small">MADE FOR FUN · DOPASHARP · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+  <p class="small">MADE FOR FUN · dopa.shap · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="analytics.js"></script>
 <script src="games.js"></script>
 <script>
   const BASE = 'https://dopasharp.github.io/';
@@ -108,7 +109,7 @@
   }
 
   // ticker
-  const tick = '<span>PLAY · <b>TAP</b> · REPEAT · 심심할 틈을 팔아요 · DOPASHARP ⚡ ·&nbsp;</span>';
+  const tick = '<span>PLAY · <b>TAP</b> · REPEAT · 쓸데없지만, 재밌으니까 · <b>도파#</b> · dopa.shap ·&nbsp;</span>';
   $('ticker').innerHTML = tick.repeat(8);
 
   // grid
@@ -116,7 +117,7 @@
     <li data-tags="${g.tags.join(' ')}">
       ${g.comingSoon ? '<div class="card next">' : `<a class="card" id="card-${g.id}" href="${url(g)}">`}
         ${g.badge ? `<span class="badge">${g.badge}</span>` : ''}
-        <span class="no">DOPA# ${String(i + 1).padStart(3, '0')}</span>
+        <span class="no">도파# ${String(i + 1).padStart(3, '0')}</span>
         <span class="emoji" aria-hidden="true">${g.emoji}</span>
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>
@@ -198,7 +199,7 @@
   }
   $('shareSite').addEventListener('click', () => share({
     title: '도파# · 오늘은 뭐 하고 놀까요?',
-    text: '설치 없이 바로 하는 미니게임 ⚡',
+    text: '설치 없이 바로 하는 미니게임, 도파#',
     url: BASE,
   }));
 
