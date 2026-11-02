@@ -3,7 +3,7 @@
 // Events: game_view, game_start, game_complete, game_retry, share_click, more_games_click, hub_game_click
 // (params game_id, method, placement, from are registered as custom dimensions in GA4).
 (function () {
-  var GA_ID = 'G-FHBYZVH7QP';
+  var GA_ID = 'G-ZX647H1FG3';
   // Only the live site counts; local previews would pollute the numbers.
   if (!GA_ID || window.__dopaGA || location.hostname !== 'dopasharp.github.io') return;
 
