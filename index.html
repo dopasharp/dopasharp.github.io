@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>도파# · 오늘은 뭐 하고 놀까요?</title>
+<title>도파# dopa.shap · 쓸데없지만, 재밌으니까.</title>
 <meta name="description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 것들만 모아둔 도파# 미니게임 놀이터.">
 <meta name="theme-color" content="#0B0E0D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dopasharp.github.io/">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="도파# dopa.shap">
+<meta property="og:site_name" content="dopa.shap">
 <meta property="og:url" content="https://dopasharp.github.io/">
-<meta property="og:title" content="도파# · 오늘은 뭐 하고 놀까요?">
-<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음.">
+<meta property="og:title" content="도파# · 쓸데없지만, 재밌으니까.">
+<meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 심심하면 도파#">
 <meta property="og:image" content="https://dopasharp.github.io/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,14 +23,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="styles/home.css">
 </head>
-<body>
+<body class="home">
+<a class="skip-link" href="#play">놀거리로 바로 가기</a>
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./" aria-label="도파# 홈">
-      <span class="brand-mark" aria-hidden="true">D#</span>
-      <span class="brand-name">dopa.shap<span>INTERACTIVE STUDIO</span></span>
+      <span class="brand-mark"><svg viewBox="0 0 132 80" fill="currentColor" aria-hidden="true"><g transform="translate(18 0) skewX(-14)"><path fill-rule="evenodd" d="M18 10h25c19 0 30 12 30 30S62 70 43 70H18zm15 13v34h9c10 0 16-6.5 16-17s-6-17-16-17z"/><rect x="83" y="12" width="9" height="56"/><rect x="100" y="12" width="9" height="56"/><rect x="77" y="27" width="38" height="9"/><rect x="77" y="45" width="38" height="9"/></g></svg></span>
+      <span class="brand-name">dopa.shap<span>심심하면 도파#</span></span>
     </a>
+    <nav class="top-nav" aria-label="주요 메뉴"><a href="#play">놀거리</a><a href="#bdayTitle">생일 보내기</a></nav>
     <button class="icon-btn" id="shareSite" type="button">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
       공유
@@ -40,7 +43,9 @@
   <section class="hero">
     <p class="eyebrow">LOOKS COOL. PLAYS FUNNY.</p>
     <h1>쓸데없지만,<br><em>재밌으니까.</em></h1>
-    <p class="sub">설치 없이, 설명은 짧게, 재미는 바로.</p>
+    <p class="sub">설치 없이, 설명은 짧게, 재미는 바로.<br>누르고, 흔들고, 불어보세요. 웃는 건 덤이에요.</p>
+    <div class="hero-actions"><a class="btn primary" href="#play">한 판 고르기 <span aria-hidden="true">↘</span></a><a class="hero-link" href="#bdayTitle">친구 생일 챙기기 ↗</a></div>
+    <div class="hero-note"><span class="status-dot" aria-hidden="true"></span>심심해서 만들었어요.<span>도파민 중독 AI 개발자의 공간</span></div>
   </section>
 </div>
 
@@ -48,7 +53,7 @@
   <div class="ticker-track" id="ticker"></div>
 </div>
 
-<main class="wrap">
+<main class="wrap" id="play">
   <a class="pick" id="pick" href="#">
     <div>
       <span class="label" id="pickLabel">오늘의 게임</span>
@@ -61,7 +66,7 @@
   <button class="roll" id="roll" type="button"><span class="dice" id="dice">🎲</span> 고르기 어렵다면? 랜덤으로 골라주세요</button>
 
   <div class="section-head">
-    <h3>취향대로 골라보세요</h3>
+    <h3>오늘은 뭐 하고 놀까요?</h3>
     <span class="count" id="count" aria-live="polite"></span>
   </div>
   <div class="chips" role="toolbar" aria-label="놀거리 필터" id="chips"></div>
@@ -70,22 +75,29 @@
   <section class="bday" aria-labelledby="bdayTitle">
     <span class="label">DOPA EVENT</span>
     <h3 id="bdayTitle">🎂 축하 메시지에, 촛불도 함께.</h3>
-    <p>이름만 넣어주세요. 후— 불면 꺼지는 생일 케이크를 보내드려요.</p>
+    <p>이름과 생일을 넣어주세요. 케이크는 제가 준비할게요.<br>후— 불면 꺼지는 촛불까지, 링크 하나로 보내세요.</p>
     <form id="bdayForm">
-      <input aria-label="생일인 친구 이름" id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required>
+      <div class="bday-fields"><label for="bdayName">받는 사람<input id="bdayName" name="name" maxlength="20" placeholder="생일인 친구 이름" autocomplete="off" required pattern=".*\S.*"></label>
+      <fieldset class="bday-date"><legend>생일</legend><div class="birth-parts">
+        <input id="bdayYear" name="year" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="YYYY" aria-label="생일 연도 4자리" autocomplete="off" required><span aria-hidden="true">.</span>
+        <input id="bdayMonth" name="month" type="text" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="MM" aria-label="생일 월" autocomplete="off" required><span aria-hidden="true">.</span>
+        <input id="bdayDay" name="day" type="text" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="DD" aria-label="생일 일" autocomplete="off" required aria-describedby="bdayDateHelp">
+      </div><span class="date-help" id="bdayDateHelp">연도 4자리 입력 후 월·일로 자동 이동해요.</span></fieldset></div>
       <div class="actions">
-        <button class="btn pink" type="submit">링크 보내기</button>
+        <button class="btn pink" type="submit">생일 링크 보내기 ↗</button>
         <button class="btn ghost" type="button" id="bdayOpen">미리 보기</button>
       </div>
     </form>
+    <p class="bday-hint" id="bdayHint">선택한 날짜가 생일 카드에 표시돼요. 이름과 날짜는 공유 링크에 담겨요.</p>
   </section>
 </main>
 
 <footer class="wrap">
-  <p class="footer-brand">D#</p>
+  <p class="footer-brand"><svg viewBox="0 0 132 80" fill="currentColor" aria-hidden="true"><g transform="translate(18 0) skewX(-14)"><path fill-rule="evenodd" d="M18 10h25c19 0 30 12 30 30S62 70 43 70H18zm15 13v34h9c10 0 16-6.5 16-17s-6-17-16-17z"/><rect x="83" y="12" width="9" height="56"/><rect x="100" y="12" width="9" height="56"/><rect x="77" y="27" width="38" height="9"/><rect x="77" y="45" width="38" height="9"/></g></svg></p>
   <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
-  <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
-  <p class="small">MADE FOR FUN · dopa.shap · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+  <p class="maker">심심해서 만들었어요.<br><span>도파민 중독 AI 개발자가 만드는 쓸데있는(?) 놀거리.</span></p>
+  <p class="contact"><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
+  <p class="small">MADE BY 도파# · dopa.shap · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -109,7 +121,7 @@
   }
 
   // ticker
-  const tick = '<span>PLAY · <b>TAP</b> · REPEAT · 쓸데없지만, 재밌으니까 · <b>도파#</b> · dopa.shap ·&nbsp;</span>';
+  const tick = '<span>TAP · <b>SHAKE</b> · BLOW · 심심하면 도파# · <b>dopa.shap</b> ·&nbsp;</span>';
   $('ticker').innerHTML = tick.repeat(8);
 
   // grid
@@ -122,7 +134,7 @@
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>
         <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
-        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : '<span class="card-cta">PLAY NOW <span aria-hidden="true">↗</span></span>'}
+        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : '<span class="card-cta">한 판 하기 <span aria-hidden="true">↗</span></span>'}
       ${g.comingSoon ? '</div>' : '</a>'}
     </li>`).join('');
 
@@ -198,22 +210,45 @@
     }
   }
   $('shareSite').addEventListener('click', () => share({
-    title: '도파# · 오늘은 뭐 하고 놀까요?',
-    text: '설치 없이 바로 하는 미니게임, 도파#',
+    title: '도파# · 쓸데없지만, 재밌으니까.',
+    text: '심심해서 만들었어요. 친구와 바로 즐기는 도파# 게임.',
     url: BASE,
   }));
 
   // birthday link
+  const birthParts = ['bdayYear', 'bdayMonth', 'bdayDay'].map($);
+  const birthdayDate = () => birthParts.map((input, i) => i ? input.value.padStart(2, '0') : input.value).join('-');
+  birthParts.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, i ? 2 : 4);
+      birthParts[2].setCustomValidity('');
+      if (input.value.length === (i ? 2 : 4) && i < 2) birthParts[i + 1].focus();
+    });
+  });
+  function validBirthday() {
+    const [year, month, day] = birthParts.map(input => Number(input.value));
+    const parsed = new Date(0);
+    parsed.setUTCFullYear(year, month - 1, day);
+    parsed.setUTCHours(0, 0, 0, 0);
+    const complete = birthParts.every(input => input.value);
+    const valid = year >= 1 && parsed.getUTCFullYear() === year && parsed.getUTCMonth() + 1 === month && parsed.getUTCDate() === day;
+    birthParts[2].setCustomValidity(complete && !valid ? '올바른 생일 날짜를 입력해 주세요.' : '');
+    return $('bdayForm').reportValidity();
+  }
   const bdayUrl = () => {
     const name = $('bdayName').value.trim();
-    return BASE + 'birthday-hoo/' + (name ? '?name=' + encodeURIComponent(name) : '');
+    const params = new URLSearchParams({ name, date: birthdayDate() });
+    return BASE + 'birthday-hoo/?' + params.toString();
   };
   $('bdayForm').addEventListener('submit', e => {
     e.preventDefault();
+    if (!validBirthday()) return;
     const name = $('bdayName').value.trim();
     share({ title: name + '님, 생일 축하해요 🎂', text: name + '님께 생일 파티가 도착했어요! 소원을 빌고 촛불을 불어보세요 🎂', url: bdayUrl() });
   });
-  $('bdayOpen').addEventListener('click', () => { location.href = bdayUrl(); });
+  $('bdayOpen').addEventListener('click', () => {
+    if (validBirthday()) location.href = bdayUrl();
+  });
 </script>
 </body>
 </html>
