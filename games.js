@@ -10,6 +10,7 @@ window.DOPA_GAMES = [
   { id: 'truth-mirror',  emoji: '🪞', name: '진실의 거울',    hook: '거울은 솔직해요. 가끔은 너무요.',     tags: ['solo', 'party'], meta: ['카메라', '장난'] },
   { id: 'gacha-capsule', emoji: '🎰', name: '랜덤 뽑기',     hook: '오늘의 운, 한 번 뽑아보세요.',        tags: ['solo', 'party'],          meta: ['혼자', '행운 테스트'] },
   { id: 'wish-pond',     emoji: '🪙', name: '소원의 연못',  hook: '내가 꾸민 동전을 던져 소원을! 거북 등에 올리면 대길', tags: ['solo', 'party', 'event'], meta: ['QR', '3D', '여러 명'] },
+  { id: 'staring-contest', emoji: '👁️', name: '눈싸움', hook: '먼저 깜빡이면 진다. 카메라가 다 보고 있어요.', tags: ['solo', 'duo'], meta: ['카메라', '실시간 1:1'] },
   { id: 'blanket-game', emoji: '🛌', name: '이불뺏기 게임', hook: '재미를 준비하고 있어요. 잠시만요!', tags: [], meta: ['COMING SOON'], comingSoon: true },
 ];
 window.DOPA_FILTERS = [
