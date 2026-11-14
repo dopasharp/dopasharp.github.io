@@ -17,6 +17,7 @@
 | 🪙 | 소원의 연못 | [/wish-pond/](https://dopasharp.github.io/wish-pond/) |
 | 👁️ | 눈싸움 | [/blink-battle/](https://dopasharp.github.io/blink-battle/) |
 | ✉️ | 내기 보물찾기! | [/bet-room/](https://dopasharp.github.io/bet-room/) |
+| 🧸 | 인형뽑기 | [/claw-machine/](https://dopasharp.github.io/claw-machine/) |
 
 전체 게임 목록은 [/games/](https://dopasharp.github.io/games/)에 있어요. 각 게임의 "다른 게임 보기"가 이 페이지로 연결되고, `?from=저장소이름`으로 들어오면 방금 한 게임은 목록에서 빠지고 돌아가기 링크가 생겨요.
 
