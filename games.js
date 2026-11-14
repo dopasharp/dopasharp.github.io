@@ -13,6 +13,7 @@ window.DOPA_GAMES = [
   { id: 'blink-battle', code: 'BLINK', emoji: '👁️', name: '눈싸움', hook: '먼저 깜빡이면 진다. 카메라가 다 보고 있어요.', tags: ['solo', 'duo'], meta: ['카메라', '실시간 1:1'] },
   { id: 'bet-room', code: 'BET', emoji: '✉️', name: '내기 보물찾기!', hook: '내기 봉투를 숨기고, 먼저 찾으면 이겨요!', tags: ['solo', 'duo'], meta: ['방 코드', '3D'] },
   { id: 'claw-machine', code: 'CLAW', emoji: '🧸', name: '인형뽑기', hook: 'PC는 기계, 폰은 조이스틱! 코인 5개로 몇 개나 뽑을까?', tags: ['solo', 'duo', 'party'], meta: ['PC + 폰', '3D'] },
+  { id: 'snowball-fight', code: 'SNOW', emoji: '☃️', name: '눈덩이 싸움', hook: '초코·딸기·케첩·간장! 눈덩이에 뭘 넣어 던질래?', tags: ['solo', 'duo'], meta: ['실시간 1:1', '소스 6종'] },
 ];
 window.DOPA_FILTERS = [
   ['all', '전체'], ['solo', '혼자서'], ['duo', '둘이서'], ['party', '모임에서'], ['event', '이벤트'],
