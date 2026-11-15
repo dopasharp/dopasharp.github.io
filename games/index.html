@@ -10,7 +10,7 @@
 <link rel="canonical" href="https://dopasharp.github.io/games/">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="도파# dopa.shap">
+<meta property="og:site_name" content="도파# dopa.sharp">
 <meta property="og:url" content="https://dopasharp.github.io/games/">
 <meta property="og:title" content="도파# · 모든 게임">
 <meta property="og:description" content="설치 없이, 설명은 짧게, 재미는 바로. 누르면 재밌는 미니게임 모음.">
@@ -38,7 +38,7 @@
   <header class="top">
     <a class="logo" href="../" aria-label="도파# 홈">
       <span class="brand-mark" aria-hidden="true">D#</span>
-      <span class="brand-name">dopa.shap<span>INTERACTIVE STUDIO</span></span>
+      <span class="brand-name">dopa.sharp<span>INTERACTIVE STUDIO</span></span>
     </a>
     <a class="icon-btn back" id="back" href="../" hidden>← <span id="backName">돌아가기</span></a>
   </header>
@@ -56,14 +56,14 @@
     <span class="count" id="count" aria-live="polite"></span>
   </div>
   <div class="chips" role="toolbar" aria-label="놀거리 필터" id="chips"></div>
-  <ul class="grid" id="grid"></ul>
+  <div class="groups" id="groups"></div>
 </main>
 
 <footer class="wrap">
   <p class="footer-brand">D#</p>
   <p class="slogan">하나의 브랜드. <em>서로 다른 재미.</em></p>
   <p class="contact">게임 아이디어 · 제휴 문의<br><a href="mailto:dopasharp@gmail.com">✉️ dopasharp@gmail.com</a></p>
-  <p class="small">MADE FOR FUN · dopa.shap · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
+  <p class="small">MADE FOR FUN · dopa.sharp · <a href="https://github.com/dopasharp" target="_blank" rel="noopener">GITHUB</a></p>
 </footer>
 
 <script src="../analytics.js"></script>
@@ -74,7 +74,7 @@
   const url = g => BASE + g.id + '/';
   // Games link here with ?from=<repo>; that game is hidden and becomes the back link.
   const from = new URLSearchParams(location.search).get('from');
-  const GAMES = window.DOPA_GAMES.map((g, i) => ({ ...g, no: String(i + 1).padStart(3, '0') }));
+  const GAMES = window.DOPA_GAMES.map((g, i) => ({ ...g, no: String(i + 1).padStart(3, '0') })).filter(g => !g.hidden);
   const came = GAMES.find(g => g.id === from && !g.comingSoon);
   if (came) {
     $('back').href = url(came);
@@ -83,26 +83,34 @@
     $('back').title = came.name + '(으)로 돌아가기';
     $('back').hidden = false;
   }
-
-  $('grid').innerHTML = GAMES.filter(g => g !== came).map(g => `
-    <li data-tags="${g.tags.join(' ')}">
+  // 내기 · 혼자 놀기 · 이벤트·선물, each sorted by rank (same as the home page)
+  const card = g => `
+    <li data-quick="${g.quick ? 1 : 0}">
       ${g.comingSoon ? '<div class="card next">' : `<a class="card" href="${url(g)}">`}
         <span class="no">도파# ${g.no}</span>
         <span class="emoji" aria-hidden="true">${g.emoji}</span>
         <h4>${g.name}</h4>
         <p class="hook">${g.hook}</p>
-        <span class="meta">${g.meta.map(m => `<span>${m}</span>`).join('')}</span>
-        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : '<span class="card-cta">PLAY NOW <span aria-hidden="true">↗</span></span>'}
+        ${g.play ? `<span class="play${g.quick ? ' quick' : ''}">${g.play}</span>` : ''}
+        ${g.comingSoon ? '<span class="card-cta pending">출시 준비 중</span>' : `<span class="card-cta">${g.quick ? '바로 시작' : '한 판 하기'} <span aria-hidden="true">↗</span></span>`}
       ${g.comingSoon ? '</div>' : '</a>'}
-    </li>`).join('');
-
-  const items = [...$('grid').children];
+    </li>`;
+  $('groups').innerHTML = window.DOPA_GROUPS.map(gr => `
+    <section class="group" data-group="${gr.key}" aria-labelledby="group-${gr.key}-title">
+      <div class="group-head"><h3 id="group-${gr.key}-title">${gr.title}</h3><p>${gr.desc}</p></div>
+      <ul class="grid">${GAMES.filter(g => g.group === gr.key && g !== came).sort((a, b) => (a.rank ?? 99) - (b.rank ?? 99)).map(card).join('')}</ul>
+    </section>`).join('');
+  const sections = [...$('groups').children];
   function applyFilter(key) {
     let n = 0;
-    items.forEach(li => {
-      const show = key === 'all' || li.dataset.tags.split(' ').includes(key);
-      li.hidden = !show;
-      if (show && li.querySelector('a.card')) n++;
+    sections.forEach(sec => {
+      let shown = 0;
+      [...sec.querySelectorAll('li')].forEach(li => {
+        const show = (key === 'all' || key === sec.dataset.group) || (key === 'quick' && li.dataset.quick === '1');
+        li.hidden = !show;
+        if (show) { shown++; if (li.querySelector('a.card')) n++; }
+      });
+      sec.hidden = !shown;
     });
     $('count').textContent = n + '개 플레이 가능';
     [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.key === key));
