@@ -75,3 +75,32 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 .home .birth-parts input:first-child { flex: 1.6; }
 .birth-parts > span { color: var(--muted); }
 .date-help { display: block; font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* 2026-11-15: games on the first screen. Shorter hero, slim pick banner, no ticker on phones */
+.home .hero { padding: 48px 0 36px; min-height: 0; }
+.home .hero-note { margin-top: 20px; }
+@media (max-width: 639px) {
+ .home .hero { padding: 18px 0 14px; }
+ .home .hero h1 { font-size: 34px; line-height: 1.12; }
+ .home .hero p.sub { margin-top: 8px; font-size: 14px; }
+ .home .hero p.sub br, .home .hero-actions, .home .hero-note { display: none; }
+ .home .ticker { display: none; }
+ .home .pick { min-height: 0; padding: 12px 52px 12px 14px; grid-template-columns: auto 1fr; gap: 12px; }
+ .home .pick > div { order: 2; }
+ .home .pick .emoji { order: 1; font-size: 34px; margin: 0; }
+ .home .pick h2 { margin: 4px 0 0; font-size: 19px; }
+ .home .pick p { display: none; }
+ .home .pick .label { font-size: 10px; padding: 2px 7px; }
+ .home .pick .go { top: 50%; transform: translateY(-50%); right: 12px; width: 30px; height: 30px; font-size: 15px; }
+ .home .roll { height: 42px; font-size: 14px; margin-top: 8px; }
+ .home .section-head { margin-top: 20px; margin-bottom: 10px; }
+}
+@media (min-width: 640px) {
+ .home .hero { padding: 36px 0 28px; }
+ .home .hero h1 { font-size: clamp(40px, 4.6vw, 58px); }
+ .home .hero-actions { margin-top: 20px; }
+ .home .ticker { margin-bottom: 20px; }
+ .home .pick { min-height: 116px; padding-block: 16px; }
+ .home .pick .emoji { font-size: 64px; }
+ .home .section-head { margin-top: 28px; }
+}
