@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0d0b16">
+  <title>크리스마스 오락실 | 도파#</title>
+  <meta name="dopasharp:game" content="christmas-arcade">
+  <link rel="canonical" href="https://dopasharp.github.io/christmas-arcade/">
+  <meta name="description" content="친구들과 같이 돌아다니는 3D 크리스마스 오락실. 인형뽑기, 10초 맞추기, 룰렛! 폰 하나로도 OK.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="도파# dopa.sharp">
+  <meta property="og:title" content="도파# 크리스마스 오락실 🎄">
+  <meta property="og:description" content="같이 돌아다니고, 줄 서고, 인형 뽑자! 폰 하나로도 바로 입장.">
+  <meta property="og:url" content="https://dopasharp.github.io/christmas-arcade/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="dopasharp/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dopasharp/tokens.css">
+  <link rel="stylesheet" href="dopasharp/components.css">
+  <link rel="stylesheet" href="css/arcade.css?v=1">
+  <script src="dopasharp/dopasharp.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js"}}</script>
+  <script type="module" src="js/main.js?v=1"></script>
+  <script>
+    document.addEventListener('submit', function (e) {
+      if (window.__arcadeReady) return;
+      e.preventDefault();
+      document.getElementById('entryError').textContent = '게임을 불러오는 중이에요. 잠시 후 다시 눌러 주세요.';
+    });
+  </script>
+</head>
+<body class="arcade">
+  <canvas id="scene"></canvas>
+
+  <!-- 오락실 HUD -->
+  <div id="hud" class="hud" hidden>
+    <div class="hud-tl">
+      <a class="hud-logo" href="https://dopasharp.github.io/" aria-label="도파# 홈">D#</a>
+      <span class="chip">🎄 <b id="onlineCount">1</b>명</span>
+      <span id="modeBadge" class="badge" hidden>로컬 테스트</span>
+    </div>
+    <div class="hud-tr">
+      <span class="chip me" id="meName"></span>
+      <span class="chip ticket" id="ticketChip">🎟️ <b id="tickets">10</b></span>
+      <button id="soundBtn" class="icon-btn" aria-label="소리 켜기/끄기">🔊</button>
+    </div>
+    <div class="hud-bl pc-only walk-only">
+      <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 이동 · <kbd>E</kbd> 플레이 · <kbd>Q</kbd> 인사
+    </div>
+    <div class="hud-br pc-only">
+      <button id="qrBtn" class="qr-chip"><span id="padDot" class="dot off"></span><span id="qrBtnText">폰으로 조종</span></button>
+    </div>
+  </div>
+
+  <!-- 캐릭터 머리 위 안내 + 줄 카드 -->
+  <div id="prompt" class="prompt" hidden></div>
+  <div id="queueCard" class="queue-card" hidden></div>
+
+  <!-- 오락기 플레이 중 -->
+  <div id="playHud" class="play-hud" hidden>
+    <div class="play-top">
+      <span id="playTitle" class="play-title"></span>
+      <span id="playTimer" class="ptimer"></span>
+      <span id="playInfo" class="play-info"></span>
+    </div>
+    <div class="play-center">
+      <div id="playBig" class="play-big"></div>
+      <div id="playSub" class="play-sub"></div>
+    </div>
+    <div class="play-actions">
+      <button id="viewBtn" class="pill-btn">🎥 기계 전체</button>
+      <button id="exitBtn" class="pill-btn">← 나가기</button>
+    </div>
+    <div class="play-keys pc-only"><kbd id="keyHintPlay">E</kbd> · <kbd>Esc</kbd> 나가기</div>
+  </div>
+
+  <!-- 터치 조작 (폰) -->
+  <div id="touch" class="touch touch-only" hidden>
+    <div id="joy" class="joy" aria-label="조이스틱"><div id="knob" class="knob"></div></div>
+    <div class="touch-btns">
+      <button id="btnB" class="tbtn small walk-only" aria-label="인사">👋</button>
+      <button id="btnA" class="tbtn big">👋</button>
+    </div>
+  </div>
+
+  <!-- 입장 화면 -->
+  <section id="entry" class="overlay entry show">
+    <header data-dopa="header"></header>
+    <form id="entryForm" class="card entry-card" autocomplete="off">
+      <span class="dopa-label">DOPA SHARP</span>
+      <h1>CHRISTMAS<br>ARCADE</h1>
+      <p class="tagline">WELCOME TO OUR LITTLE ARCADE 🎄</p>
+      <label class="field">
+        <span class="dopa-label">YOUR NICKNAME</span>
+        <input id="nick" maxlength="10" placeholder="닉네임 (10자까지)" enterkeyhint="go" required>
+      </label>
+      <div class="field">
+        <span class="dopa-label">OUTFIT</span>
+        <div id="outfits" class="outfits"></div>
+      </div>
+      <button id="enterBtn" class="dopa-button dopa-button--block" type="submit">ENTER ARCADE</button>
+      <p id="entryError" class="error" aria-live="polite"></p>
+      <p class="small">📱 폰 하나로도 OK · 💻 PC에선 WASD (폰을 조종기로 써도 돼요)</p>
+    </form>
+    <footer data-dopa="footer"></footer>
+  </section>
+
+  <!-- PC: 폰 조종기 QR -->
+  <section id="qrOverlay" class="overlay">
+    <div class="card">
+      <span class="dopa-label">PHONE CONTROLLER</span>
+      <h2>폰으로 스캔하면<br>조종기가 돼요</h2>
+      <div id="qr" class="qr"></div>
+      <p class="code">연결 코드 <b id="padCode">------</b></p>
+      <a id="padLink" class="link" target="_blank" rel="noopener"></a>
+      <button id="closeQr" class="dopa-button dopa-button--secondary dopa-button--block">닫기</button>
+    </div>
+  </section>
+
+  <div id="banner" class="banner"></div>
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>

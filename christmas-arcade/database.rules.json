@@ -1,0 +1,107 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "arcade": {
+      "$room": {
+        "players": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.hasChildren(['n', 'o', 'x', 'z', 't'])",
+            "n": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 12"
+            },
+            "o": {
+              ".validate": "newData.isString() && newData.val().length <= 10"
+            },
+            "x": {
+              ".validate": "newData.isNumber() && newData.val() >= -30 && newData.val() <= 30"
+            },
+            "z": {
+              ".validate": "newData.isNumber() && newData.val() >= -30 && newData.val() <= 30"
+            },
+            "r": {
+              ".validate": "newData.isNumber()"
+            },
+            "s": {
+              ".validate": "newData.isString() && newData.val().length <= 10"
+            },
+            "m": {
+              ".validate": "newData.isString() && newData.val().length <= 12"
+            },
+            "w": {
+              ".validate": "newData.isNumber()"
+            },
+            "t": {
+              ".validate": "newData.isNumber()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "machines": {
+          ".read": "auth != null",
+          "$mid": {
+            ".validate": "$mid.matches(/^[a-z]{2,12}$/)",
+            "player": {
+              ".write": "auth != null && (!data.exists() || data.child('uid').val() === auth.uid || data.child('beat').val() < now - 15000) && (!newData.exists() || newData.child('uid').val() === auth.uid)",
+              ".validate": "newData.hasChildren(['uid', 'n', 'beat'])",
+              "uid": {
+                ".validate": "newData.isString()"
+              },
+              "n": {
+                ".validate": "newData.isString() && newData.val().length <= 12"
+              },
+              "beat": {
+                ".validate": "newData.isNumber() && newData.val() <= now + 10000"
+              },
+              "$other": {
+                ".validate": false
+              }
+            },
+            "queue": {
+              "$uid": {
+                ".write": "auth != null && auth.uid === $uid",
+                ".validate": "newData.hasChildren(['n', 'at']) && newData.child('n').isString() && newData.child('n').val().length <= 12 && newData.child('at').isNumber()"
+              }
+            },
+            "live": {
+              ".write": "auth != null && root.child('arcade').child($room).child('machines').child($mid).child('player').child('uid').val() === auth.uid"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "pads": {
+      "$code": {
+        ".read": "auth != null && $code.matches(/^[A-Z0-9]{6,8}$/)",
+        ".write": "auth != null && $code.matches(/^[A-Z0-9]{6,8}$/) && !newData.exists() && data.child('owner').val() === auth.uid",
+        "owner": {
+          ".write": "auth != null && (!data.exists() || data.val() === auth.uid)",
+          ".validate": "newData.val() === auth.uid"
+        },
+        "ui": {
+          ".write": "auth != null && root.child('pads').child($code).child('owner').val() === auth.uid"
+        },
+        "pad": {
+          ".write": "auth != null && root.child('pads').child($code).child('owner').exists()"
+        },
+        "in": {
+          ".write": "auth != null && root.child('pads').child($code).child('owner').exists()",
+          ".validate": "newData.child('x').isNumber() && newData.child('z').isNumber() && newData.child('x').val() >= -1 && newData.child('x').val() <= 1 && newData.child('z').val() >= -1 && newData.child('z').val() <= 1"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}

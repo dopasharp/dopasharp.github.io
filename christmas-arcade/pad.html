@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0d0b16">
+  <title>조종기 · 크리스마스 오락실 | 도파#</title>
+  <meta name="dopasharp:game" content="christmas-arcade">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="dopasharp/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dopasharp/tokens.css">
+  <link rel="stylesheet" href="dopasharp/components.css">
+  <link rel="stylesheet" href="css/arcade.css?v=1">
+  <script type="module" src="js/pad.js?v=1"></script>
+</head>
+<body class="pad-page is-touch">
+  <section id="padMsg" class="pad-screen pad-msg">
+    <span></span>
+    <div class="card">
+      <span class="dopa-label">PHONE CONTROLLER</span>
+      <h2 id="padMsgText">연결하는 중…</h2>
+      <a class="dopa-button dopa-button--secondary dopa-button--block" href="./">📱 폰으로 직접 입장하기</a>
+    </div>
+    <span></span>
+  </section>
+  <section id="padCtrl" class="pad-screen" hidden>
+    <div class="pad-top"><span><span id="hostDot" class="dot on"></span> 연결됨</span><span>🎟️ <b id="padTickets">-</b></span></div>
+    <div id="padTitle" class="pad-title">🎄 오락실</div>
+    <div class="pad-row">
+      <div id="joy" class="joy" aria-label="조이스틱"><div id="knob" class="knob"></div></div>
+      <div class="pad-btns">
+        <button id="btnA" class="tbtn big">E</button>
+        <button id="btnB" class="tbtn small">👋</button>
+        <button id="btnX" class="pill-btn" hidden>← 나가기</button>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

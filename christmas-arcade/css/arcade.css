@@ -1,0 +1,146 @@
+/* 도파# 크리스마스 오락실 */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0d0b16; color: var(--color-text); font-family: var(--font-body); }
+body { -webkit-tap-highlight-color: transparent; overflow: hidden; overscroll-behavior: none; }
+button { font: inherit; }
+[hidden] { display: none !important; }
+kbd { display: inline-block; padding: 1px 6px; border: 1px solid var(--color-border); border-bottom-width: 2px; border-radius: 6px; font: 600 12px/1.4 var(--font-body); color: var(--color-text); background: var(--color-surface-raised); }
+.small { font-size: var(--text-small); color: var(--color-text-muted); line-height: 1.5; margin: 0; }
+.error { color: var(--color-error); min-height: 1.2em; font-size: var(--text-small); margin: 0; }
+.badge { font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: var(--radius-pill); background: var(--color-pink); color: #fff; }
+.icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--color-border); background: rgba(21, 25, 26, .78); color: var(--color-text); font-size: 18px; cursor: pointer; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.dot.on { background: var(--color-mint); box-shadow: 0 0 10px var(--color-mint); }
+.dot.off { background: #666; }
+
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+/* 폰/PC 전용 요소 */
+.is-touch .pc-only { display: none !important; }
+body:not(.is-touch) .touch-only { display: none !important; }
+.playing .walk-only { display: none !important; }
+
+/* ---------------------------------------------------------------- HUD */
+.hud { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.hud > div { position: absolute; display: flex; align-items: center; gap: 8px; }
+.hud-tl { top: calc(env(safe-area-inset-top, 0px) + 12px); left: 12px; }
+.hud-tr { top: calc(env(safe-area-inset-top, 0px) + 12px); right: 12px; }
+.hud-bl { bottom: 18px; left: 18px; font-size: 13px; color: var(--color-text-muted); padding: 8px 12px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .6); }
+.hud-br { bottom: 18px; right: 18px; }
+.hud a, .hud button { pointer-events: auto; }
+.hud-logo { font: 400 22px/1 "Black Han Sans", var(--font-body); color: var(--color-brand); text-decoration: none; padding: 7px 11px; border-radius: 12px; background: rgba(11, 14, 13, .72); }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .72); border: 1px solid rgba(255, 255, 255, .08); font-size: 14px; white-space: nowrap; backdrop-filter: blur(6px); }
+.chip b { color: var(--color-brand); }
+.chip.me { max-width: 32vw; overflow: hidden; text-overflow: ellipsis; font-weight: 700; }
+.chip.ticket b { font-size: 16px; }
+.chip.ticket.bump { animation: bump .5s var(--ease-standard); }
+.chip.ticket.drop { animation: dropT .4s var(--ease-standard); }
+@keyframes bump { 40% { transform: scale(1.25); background: var(--color-brand); color: var(--color-on-brand); } }
+@keyframes dropT { 40% { transform: translateY(3px) scale(.92); } }
+.qr-chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: var(--radius-pill); border: 1px solid var(--color-border); background: rgba(11, 14, 13, .78); color: var(--color-text); font-weight: 700; cursor: pointer; }
+.qr-chip:hover { border-color: var(--color-brand); }
+.qr-chip.connected { border-color: var(--color-mint); }
+
+/* 캐릭터 머리 위 안내 */
+.prompt { position: fixed; z-index: 6; transform: translate(-50%, -100%); padding: 8px 14px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .82); color: var(--color-text); font-weight: 800; font-size: 14px; white-space: nowrap; pointer-events: none; border: 1px solid var(--color-border); }
+.prompt.act { background: var(--color-brand); color: var(--color-on-brand); border-color: transparent; animation: nudge 1.2s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translate(-50%, calc(-100% - 5px)); } }
+
+.queue-card { position: fixed; z-index: 6; top: calc(env(safe-area-inset-top, 0px) + 64px); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 18px; border-radius: var(--radius-lg); background: rgba(11, 14, 13, .86); border: 1px solid #ffd36b; text-align: center; pointer-events: none; }
+.queue-card b { font-size: 15px; }
+.queue-card span { font-size: 12px; color: var(--color-text-muted); }
+
+/* ---------------------------------------------------------------- 터치 조작 */
+.touch { position: fixed; left: 0; right: 0; bottom: 0; z-index: 7; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 18px calc(env(safe-area-inset-bottom, 0px) + 20px); pointer-events: none; }
+.joy { position: relative; width: 132px; height: 132px; border-radius: 50%; background: radial-gradient(circle at 50% 40%, rgba(35, 42, 41, .75), rgba(17, 21, 20, .75) 70%); border: 3px solid rgba(255, 255, 255, .12); box-shadow: inset 0 6px 24px rgba(0, 0, 0, .5); touch-action: none; pointer-events: auto; }
+.joy.active { border-color: rgba(217, 255, 68, .5); }
+.knob { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9db5, #ff3b5c 55%, #b51a3a); box-shadow: 0 8px 16px rgba(0, 0, 0, .5); transition: transform .1s; }
+.joy.active .knob { transition: none; }
+.touch-btns { display: flex; align-items: flex-end; gap: 12px; pointer-events: auto; }
+.tbtn { border: 0; border-radius: 50%; cursor: pointer; touch-action: manipulation; font-weight: 800; user-select: none; -webkit-user-select: none; }
+.tbtn.big { width: 96px; height: 96px; background: var(--color-brand); color: var(--color-on-brand); font: 400 20px/1.05 "Black Han Sans", var(--font-body); box-shadow: 0 6px 0 #8aa61a, 0 12px 24px rgba(0, 0, 0, .4); padding: 0 6px; }
+.tbtn.big:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 1px 0 #8aa61a; }
+.tbtn.big:disabled { background: var(--color-surface-raised); color: var(--color-text-muted); box-shadow: 0 6px 0 #111; }
+.tbtn.small { width: 56px; height: 56px; background: rgba(11, 14, 13, .78); color: var(--color-text); font-size: 24px; border: 1px solid var(--color-border); }
+
+/* ---------------------------------------------------------------- 오락기 플레이 */
+.play-hud { position: fixed; inset: 0; z-index: 6; pointer-events: none; }
+.play-top { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 62px); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .8); border: 1px solid var(--color-border); white-space: nowrap; }
+.play-title { font-weight: 800; }
+.play-info { font-size: 13px; color: var(--color-text-muted); }
+.ptimer { font: 400 28px/1 "Black Han Sans", var(--font-body); color: var(--color-brand); min-width: 0; }
+.ptimer:empty { display: none; }
+.ptimer.hurry { color: var(--color-pink); animation: pulse .5s infinite alternate; }
+@keyframes pulse { to { transform: scale(1.12); } }
+.play-center { position: absolute; left: 50%; bottom: 150px; transform: translateX(-50%); text-align: center; width: min(92vw, 520px); }
+.play-big { font: 400 clamp(48px, 12vw, 92px)/1 "Black Han Sans", var(--font-body); text-shadow: 0 6px 30px rgba(0, 0, 0, .6); font-variant-numeric: tabular-nums; }
+.play-big:empty { display: none; }
+.play-sub { margin-top: 6px; display: inline-block; padding: 6px 14px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .75); font-size: 14px; font-weight: 700; }
+.play-sub:empty { display: none; }
+.play-hud[data-machine="claw"] .play-center { bottom: 140px; }
+.play-actions { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 112px); left: 50%; transform: translateX(-50%); display: flex; gap: 8px; pointer-events: auto; }
+.pill-btn { white-space: nowrap; border: 1px solid var(--color-border); background: rgba(11, 14, 13, .8); color: var(--color-text); border-radius: var(--radius-pill); padding: 8px 14px; font: 700 13px/1 var(--font-body); cursor: pointer; }
+.pill-btn:hover { border-color: var(--color-brand); }
+.play-keys { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--color-text-muted); padding: 8px 12px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .6); }
+@media (min-width: 760px) {
+  .play-center { bottom: 80px; }
+  .play-hud[data-machine="claw"] .play-center { bottom: 70px; }
+}
+
+/* ---------------------------------------------------------------- 오버레이 (입장, QR) */
+.overlay { position: fixed; inset: 0; z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; padding: var(--page-padding); overflow: auto; }
+.overlay.show { display: flex; }
+#qrOverlay { background: rgba(11, 14, 13, .86); backdrop-filter: blur(8px); }
+.entry { background: linear-gradient(180deg, rgba(13, 11, 22, .25), rgba(13, 11, 22, .82) 70%); justify-content: flex-start; gap: var(--space-4); }
+.entry > header, .entry > footer { width: 100%; max-width: 520px; }
+.entry > footer { margin-top: auto; }
+.card { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); text-align: center; padding: var(--space-8) var(--space-6); background: rgba(21, 25, 26, .9); border: 1px solid var(--color-border); border-radius: var(--radius-xl); backdrop-filter: blur(10px); }
+.card h2 { font-size: var(--text-h3); line-height: 1.35; margin: 0; }
+.entry-card { margin-top: auto; gap: var(--space-3); padding: var(--space-6); }
+.entry-card h1 { margin: 0; font: 400 clamp(40px, 11vw, 58px)/.95 "Black Han Sans", var(--font-body); color: var(--color-brand); letter-spacing: .02em; text-shadow: 0 0 24px rgba(217, 255, 68, .35), 3px 3px 0 #ff6c91; }
+.tagline { margin: 0; font-size: 12px; letter-spacing: .14em; color: var(--color-mint); font-weight: 700; }
+.field { width: 100%; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.field input { width: 100%; height: 52px; padding: 0 16px; border-radius: var(--radius-md); border: 2px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font: 700 18px/1 var(--font-body); outline: none; }
+.field input:focus { border-color: var(--color-brand); }
+.outfits { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.outfit { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 2px; border-radius: var(--radius-md); border: 2px solid var(--color-border); background: var(--color-bg); color: var(--color-text-muted); cursor: pointer; font-size: 11px; font-weight: 700; }
+.outfit i { width: 24px; height: 24px; border-radius: 50%; background: var(--c); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .2); }
+.outfit.on { border-color: var(--color-brand); color: var(--color-text); }
+.qr { background: #fff; padding: 14px; border-radius: var(--radius-lg); line-height: 0; }
+.code { margin: 0; font-size: var(--text-small); color: var(--color-text-muted); }
+.code b { font-size: 26px; letter-spacing: .14em; color: var(--color-brand); margin-left: 6px; vertical-align: middle; }
+.link { font-size: 12px; color: var(--color-text-muted); word-break: break-all; }
+
+/* ---------------------------------------------------------------- 연출 */
+.banner { position: fixed; left: 50%; top: 24%; z-index: 20; transform: translate(-50%, -20px) scale(.8); opacity: 0; pointer-events: none; padding: 12px 26px; border-radius: var(--radius-pill); font: 400 clamp(26px, 4vw, 50px)/1.1 "Black Han Sans", var(--font-body); white-space: nowrap; max-width: 94vw; background: var(--color-brand); color: var(--color-on-brand); box-shadow: 0 10px 40px rgba(0, 0, 0, .5); transition: opacity var(--duration-normal), transform var(--duration-slow) var(--ease-standard); }
+.banner.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.banner.miss { background: var(--color-surface-raised); color: var(--color-text); border: 1px solid var(--color-border); }
+.banner.go { background: var(--color-mint); }
+.banner.rare { background: linear-gradient(90deg, #d9ff44, #86efc8, #ff6c91, #d9ff44); background-size: 300% 100%; animation: shine 1.2s linear infinite; }
+@keyframes shine { to { background-position: 300% 0; } }
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 19; overflow: hidden; }
+.confetti i { position: absolute; top: 55%; width: 10px; height: 14px; border-radius: 2px; animation: conf 1.8s cubic-bezier(.15, .6, .4, 1) forwards; }
+@keyframes conf { to { transform: translate(var(--dx), calc(var(--dy) + 40vh)) rotate(var(--r)); opacity: 0; } }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 168px); z-index: 30; transform: translate(-50%, 10px); opacity: 0; padding: 10px 18px; border-radius: var(--radius-pill); background: rgba(11, 14, 13, .9); border: 1px solid var(--color-border); font-size: 14px; font-weight: 700; pointer-events: none; transition: opacity var(--duration-normal), transform var(--duration-normal); max-width: 92vw; text-align: center; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+body:not(.is-touch) .toast { bottom: 80px; }
+
+/* ---------------------------------------------------------------- 폰 조종기 페이지 (pad.html) */
+.pad-page { height: 100dvh; touch-action: none; user-select: none; -webkit-user-select: none; background: radial-gradient(120% 60% at 50% 100%, rgba(226, 59, 74, .35), transparent 70%), radial-gradient(80% 40% at 50% 0%, rgba(217, 255, 68, .12), transparent 70%), #0d0b16; }
+.pad-screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px calc(env(safe-area-inset-bottom, 0px) + 22px); }
+.pad-top { width: 100%; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--color-text-muted); }
+.pad-top b { color: var(--color-text); }
+.pad-title { font: 400 30px/1.1 "Black Han Sans", var(--font-body); text-align: center; color: var(--color-brand); }
+.pad-row { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.pad-page .joy { width: min(52vw, 220px); height: auto; aspect-ratio: 1; }
+.pad-page .knob { width: 42%; height: auto; aspect-ratio: 1; margin: -21% 0 0 -21%; }
+.pad-btns { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.pad-page .tbtn.big { width: 120px; height: 120px; font-size: 24px; }
+.pad-msg { padding: var(--page-padding); }
+
+@media (max-width: 480px) {
+  .chip.me { display: none; }
+  .chip { padding: 7px 10px; font-size: 13px; }
+  .hud-logo { font-size: 19px; padding: 7px 9px; }
+  .play-top { gap: 8px; padding: 7px 14px; }
+}
